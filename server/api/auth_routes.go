@@ -1,0 +1,54 @@
+package api
+
+import (
+	"crypto/rand"
+	"encoding/base64"
+
+	"github.com/gin-gonic/gin"
+)
+
+type AuthRequest struct {
+	Password string `json:"password"`
+}
+
+func (a *API) auth(c *gin.Context) {
+	var authRequest AuthRequest
+	if err := c.BindJSON(&authRequest); err != nil {
+		c.JSON(400, gin.H{
+			"error": "invalid request",
+		})
+		return
+	}
+	if authRequest.Password != a.adminPassword {
+		c.JSON(401, gin.H{
+			"error": "unauthorized",
+		})
+		return
+	}
+
+	adminToken, err := generateRandomToken(32)
+	_, err = a.db.CreateAdminToken(c.Request.Context(), adminToken)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error": "internal server error",
+		})
+		return
+	}
+	c.Header("Set-Cookie", "admin-token="+adminToken+"; Path=/; SameSite=Strict")
+	c.JSON(200, gin.H{
+		"status": "ok",
+	})
+}
+
+func generateRandomToken(length int) (string, error) {
+	randomBytes := make([]byte, length)
+
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		return "", err
+	}
+
+	token := base64.URLEncoding.EncodeToString(randomBytes)
+
+	return token, nil
+}
