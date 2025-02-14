@@ -1,14 +1,15 @@
 {
-  "name": "bean-counter",
+  "name": "my-remix-app",
   "private": true,
-  "version": "0.0.0",
+  "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "remix vite:build",
+    "dev": "remix vite:dev",
+    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "start": "remix-serve ./build/server/index.js",
     "server": "go run ./server",
-    "lint": "eslint .",
-    "preview": "vite preview",
+    "typecheck": "tsc",
     "_goose": "GOOSE_MIGRATION_DIR=server/db/migrations goose postgres \"user=bean dbname=beancounter sslmode=disable host=127.0.0.1 port=5432 password=counter\"",
     "db:generate": "sqlc generate",
     "db:migrate": "npm run _goose -- up",
@@ -17,28 +18,34 @@
     "docker:publish": "npm run docker:build -- --push"
   },
   "dependencies": {
-    "@mantine/core": "^7.12.1",
-    "@mantine/hooks": "^7.12.1",
-    "@tabler/icons-react": "^3.14.0",
-    "@tanstack/react-query": "^5.55.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.1"
+    "@remix-run/node": "^2.15.3",
+    "@remix-run/react": "^2.15.3",
+    "@remix-run/serve": "^2.15.3",
+    "cookie": "^1.0.2",
+    "isbot": "^4.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "eslint": "^9.9.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
-    "globals": "^15.9.0",
-    "postcss": "^8.4.41",
-    "postcss-preset-mantine": "^1.17.0",
-    "postcss-simple-vars": "^7.0.1",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.1",
-    "vite": "^5.4.1"
+    "@remix-run/dev": "^2.15.3",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.38.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0",
+    "vite-tsconfig-paths": "^4.2.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

@@ -19,6 +19,7 @@ func (a *API) auth(c *gin.Context) {
 		})
 		return
 	}
+
 	if authRequest.Password != "password" {
 		c.JSON(401, gin.H{
 			"error": "unauthorized",
@@ -34,9 +35,7 @@ func (a *API) auth(c *gin.Context) {
 		return
 	}
 	c.Header("Set-Cookie", "admin-token="+adminToken+"; Path=/; SameSite=Strict")
-	c.JSON(200, gin.H{
-		"status": "ok",
-	})
+	c.Redirect(301, "http://localhost:5173/app")
 }
 
 func generateRandomToken(length int) (string, error) {
