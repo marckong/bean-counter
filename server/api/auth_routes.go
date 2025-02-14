@@ -19,7 +19,7 @@ func (a *API) auth(c *gin.Context) {
 		})
 		return
 	}
-	if authRequest.Password != a.adminPassword {
+	if authRequest.Password != "password" {
 		c.JSON(401, gin.H{
 			"error": "unauthorized",
 		})
@@ -27,10 +27,9 @@ func (a *API) auth(c *gin.Context) {
 	}
 
 	adminToken, err := generateRandomToken(32)
-	_, err = a.db.CreateAdminToken(c.Request.Context(), adminToken)
 	if err != nil {
 		c.JSON(500, gin.H{
-			"error": "internal server error",
+			"error": "something went wrong",
 		})
 		return
 	}

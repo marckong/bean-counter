@@ -41,9 +41,8 @@ services:
 
 - `PG_HOST` - The hostname of the PostgreSQL server.
 - `PORT` - The port the application should listen on.
-- `ADMIN_PASSWORD` - The password for the admin user.
 
-Then visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+Then visit [http://localhost:8080/login/](http://localhost:8080/login/) and sign in with the default hardcoded password - "password".
 
 ## Local Development
 
@@ -72,3 +71,15 @@ npm run dev
 ```
 
 Then visit [http://localhost:8080/admin/](http://localhost:8080/admin/).
+
+To generate Go functions to run postgres queries based on your .sql files:
+```bash
+npm run db:generate
+```
+
+To run database migrations:
+```bash
+npm run db:migrate
+```
+
+you can learn more about [https://sqlc.dev/](sqlc) and [https://github.com/pressly/goose](goose) at the links;
